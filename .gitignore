@@ -8,9 +8,6 @@
 /.idea/
 /app/build/
 /library/build/
-.gradle
-build/
-
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -22,3 +19,6 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+app/libs/
+library/libs/
+library/src/main/res/drawable/
