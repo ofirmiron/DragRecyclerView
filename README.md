@@ -1,12 +1,11 @@
-[ ![Download](https://api.bintray.com/packages/shinhyo/maven/dragrecyclerview/images/download.svg) ](https://bintray.com/shinhyo/maven/dragrecyclerview/_latestVersion)
-
-# DragRecyclerView
+# DragRecyclerView [ ![Download](https://api.bintray.com/packages/shinhyo/maven/dragrecyclerview/images/download.svg) ](https://bintray.com/shinhyo/maven/dragrecyclerview/_latestVersion) <a href="http://www.methodscount.com/?lib=com.wonshinhyo%3Adragrecyclerview%3A1.0.2"><img src="https://img.shields.io/badge/Size-12 KB-e91e63.svg"/></a>
 
 List Sample | Grid Sample
 ---- | ----
 ![](web/list.gif) |![](web/grid.gif) 
 
 Code
+====
 
 **xml**
 ```xml
@@ -14,7 +13,7 @@ Code
     android:id="@+id/recyclerview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    drag:handle_id="@+id/handler"/>      // set Handle_id
+    drag:handle_id="@+id/handler"/>      // set [handle_id] or do not
 ```
  
 
@@ -60,14 +59,8 @@ Download
 
 ```groovy
 
-repositories {
-    maven {
-        url 'https://dl.bintray.com/shinhyo/maven/'
-    }
-}
-
 dependencies {
-    compile 'com.wonshinhyo:dragrecyclerview:1.0.1'
+    compile 'com.wonshinhyo:dragrecyclerview:1.0.2'
 }
 ```
 
@@ -75,6 +68,7 @@ dependencies {
 
 --
 Inspired by [ItemTouchHelper](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo).
+
 
 License
 =======
