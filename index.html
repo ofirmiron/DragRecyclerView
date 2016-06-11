@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>DragRecyclerview by shinhyo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">DragRecyclerview</h1>
+      <h2 class="project-tagline">Simple Drag Swipe RecyclerView</h2>
+      <a href="https://github.com/shinhyo/DragRecyclerView" class="btn">View on GitHub</a>
+      <a href="https://github.com/shinhyo/DragRecyclerView/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/shinhyo/DragRecyclerView/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="dragrecyclerview" class="anchor" href="#dragrecyclerview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DragRecyclerView</h1>
+
+<table>
+<thead>
+<tr>
+<th>List Sample</th>
+<th>Grid Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://github.com/shinhyo/DragRecyclerView/raw/master/web/list.gif" alt=""></td>
+<td><img src="https://github.com/shinhyo/DragRecyclerView/raw/master/web/grid.gif" alt=""></td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a id="code" class="anchor" href="#code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Code</h1>
+
+<p><strong>xml</strong></p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">com</span>.wonshinhyo.dragrecyclerview.DragRecyclerView
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>@+id/recyclerview<span class="pl-pds">"</span></span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_width</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_height</span>=<span class="pl-s"><span class="pl-pds">"</span>wrap_content<span class="pl-pds">"</span></span>
+    <span class="pl-e">drag</span><span class="pl-e">:</span><span class="pl-e">handle_id</span>=<span class="pl-s"><span class="pl-pds">"</span>@+id/handler<span class="pl-pds">"</span></span>/&gt;      // set [handle_id] or do not</pre></div>
+
+<p><strong>java</strong></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">DragRecyclerView</span> recyclerView <span class="pl-k">=</span> (<span class="pl-smi">DragRecyclerView</span>) findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>recyclerview);
+
+<span class="pl-c1">...</span>
+
+mAdapter <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Adapter</span>(<span class="pl-v">this</span>, data);
+recyclerView<span class="pl-k">.</span>setAdapter(mAdapter);
+
+recyclerView<span class="pl-k">.</span>setHandleDragEnabled(<span class="pl-c1">true</span>); <span class="pl-c">// default true</span>
+recyclerView<span class="pl-k">.</span>setLongPressDragEnabled(<span class="pl-c1">true</span>); <span class="pl-c">// default true</span>
+recyclerView<span class="pl-k">.</span>setSwipeEnabled(<span class="pl-c1">true</span>); <span class="pl-c">// default true</span>
+
+<span class="pl-c">// click listener</span>
+mAdapter<span class="pl-k">.</span>setOnItemClickListener(<span class="pl-k">new</span> <span class="pl-smi">DragRecyclerViewAdapter</span>.<span class="pl-smi">SimpleClickListener</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onItemClick</span>(<span class="pl-k">int</span> <span class="pl-v">pos</span>, <span class="pl-smi">View</span> <span class="pl-v">v</span>) {}
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onItemLongClick</span>(<span class="pl-k">int</span> <span class="pl-v">pos</span>, <span class="pl-smi">View</span> <span class="pl-v">v</span>) {}
+});
+
+<span class="pl-c">// drag &amp; swipe listener</span>
+mAdapter<span class="pl-k">.</span>setOnItemDragListener(<span class="pl-k">new</span> <span class="pl-smi">DragTouchCallback</span>.<span class="pl-smi">SimpleDragListener</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">onMove</span>(<span class="pl-k">int</span> <span class="pl-v">fromPosition</span>, <span class="pl-k">int</span> <span class="pl-v">toPosition</span>) {
+        <span class="pl-k">return</span> <span class="pl-v">super</span><span class="pl-k">.</span>onMove(fromPosition, toPosition);
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onSwiped</span>(<span class="pl-k">int</span> <span class="pl-v">pos</span>) {
+        <span class="pl-v">super</span><span class="pl-k">.</span>onSwiped(pos);
+    }
+});
+</pre></div>
+
+<h1>
+<a id="download" class="anchor" href="#download" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download</h1>
+
+<p><a href="https://bintray.com/shinhyo/maven/dragrecyclerview/_latestVersion"> <img src="https://api.bintray.com/packages/shinhyo/maven/dragrecyclerview/images/download.svg" alt="Download"> </a></p>
+
+<div class="highlight highlight-source-groovy"><pre>
+repositories {
+    maven {
+        url <span class="pl-s"><span class="pl-pds">'</span>https://dl.bintray.com/shinhyo/maven/<span class="pl-pds">'</span></span>
+    }
+}
+
+dependencies {
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.wonshinhyo:dragrecyclerview:1.0.2<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<h2></h2>
+
+<p>Inspired by <a href="https://github.com/iPaulPro/Android-ItemTouchHelper-Demo">ItemTouchHelper</a>.</p>
+
+<h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h1>
+
+<pre><code>Copyright 2016 Shinhyo Won
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/shinhyo/DragRecyclerView">DragRecyclerview</a> is maintained by <a href="https://github.com/shinhyo">shinhyo</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
