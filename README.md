@@ -2,14 +2,11 @@
 
 # DragRecyclerView
 
-**List**
-![](web/list.gif)  
-
-**Grid**
-![](web/grid.gif) 
+List Sample | Grid Sample
+---- | ----
+![](web/list.gif) |![](web/grid.gif) 
 
 Code
-====
 
 **xml**
 ```xml

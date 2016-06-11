@@ -37,12 +37,11 @@ public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter imple
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder hol, int position) {
         final DragHolder holder = (DragHolder) hol;
-        if (holder.mHandle == null) {
-            throw new NullPointerException("drag:handle_id is not set");
-        }
-        if (!isHandleDragEnabled) {
+
+        if (holder.mHandle == null || !isHandleDragEnabled) {
             return;
         }
+
         holder.mHandle.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
