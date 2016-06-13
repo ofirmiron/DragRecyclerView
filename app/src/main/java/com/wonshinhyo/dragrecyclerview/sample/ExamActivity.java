@@ -45,7 +45,7 @@ public class ExamActivity extends AppCompatActivity {
         );
 
         ArrayList<Integer> data = new ArrayList<>(); // dummy data
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             data.add(i);
         }
 
@@ -55,14 +55,6 @@ public class ExamActivity extends AppCompatActivity {
         recyclerView.setHandleDragEnabled(true); // default true
         recyclerView.setLongPressDragEnabled(true); // default true
         recyclerView.setSwipeEnabled(true); // default true
-
-//        mAdapter.setOnItemStartDragListener(new OnStartDragListener() {
-//            @Override
-//            public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-//
-//            }
-//        });
-
 
         mAdapter.setOnItemClickListener(new SimpleClickListener() {
             @Override
@@ -90,8 +82,8 @@ public class ExamActivity extends AppCompatActivity {
             @Override
             public void onSwiped(int pos) {
                 super.onSwiped(pos);
-                Toast.makeText(ExamActivity.this, "onSwiped\npos: " + pos + " text: "
-                        + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
+                Log.d("drag", "onSwiped " + pos);
+                Toast.makeText(ExamActivity.this, "onSwiped\npos: " + pos, Toast.LENGTH_SHORT).show();
             }
         });
 

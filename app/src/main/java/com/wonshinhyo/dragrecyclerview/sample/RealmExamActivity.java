@@ -55,7 +55,13 @@ public class RealmExamActivity extends AppCompatActivity {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
         mRealm = Realm.getInstance(realmConfiguration);
         if (mRealm.where(Dummy.class).count() <= 0) {
-            setData();
+            mRealm.beginTransaction();
+            RealmList<Dummy> dummies = new RealmList<>();
+            for (int i = 0; i < 10; i++) {
+                dummies.add(new Dummy(i, i));
+            }
+            mRealm.copyToRealm(dummies);
+            mRealm.commitTransaction();
         }
 
         final RealmList<Dummy> list = new RealmList<>();
@@ -115,28 +121,18 @@ public class RealmExamActivity extends AppCompatActivity {
             @Override
             public void onSwiped(int pos) {
                 super.onSwiped(pos);
-                Toast.makeText(RealmExamActivity.this, "onSwiped\npos: " + pos + " text: "
-                        + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
+                Log.d("drag", "onSwiped " + pos);
+                Toast.makeText(RealmExamActivity.this, "onSwiped\npos: " + pos, Toast.LENGTH_SHORT).show();
+
+                mRealm.beginTransaction();
+                mRealm.where(Dummy.class).equalTo("id", pos).findAllSorted("id").deleteAllFromRealm();
+                mRealm.commitTransaction();
             }
         });
 
 
     }
 
-    private void setData() {
-
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                RealmList<Dummy> dummies = new RealmList<>();
-                for (int i = 0; i < 10; i++) {
-                    dummies.add(new Dummy(i, i));
-                }
-                mRealm.copyToRealm(dummies);
-            }
-        });
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -149,28 +145,20 @@ public class RealmExamActivity extends AppCompatActivity {
         Log.d("test", "onOptionsItemSelected");
 
         mRealm.beginTransaction();
-//        RealmList<Dummy> list = new RealmList<>();
-//        RealmResults<Dummy> dummies = mRealm.where(Dummy.class).findAllSorted("id");
-//
-//        for (int i = 0; i <dummies.size(); i++) {
-//            Dummy dummy = dummies.get(i);
-//            Log.d("test", dummy.getId() + "/" + dummy.getNum());
-//            dummy.setId(i);
-//            dummy.setNum(i);
-//            list.add(dummy);
-//            Log.i("test", dummy.getId() + "/" + dummy.getNum());
-//        }
-//        mRealm.copyToRealmOrUpdate(list);
-//
-
-        OrderedRealmCollection li = mAdapter.getData();
-        for (int i = 0; i < li.size(); i++) {
-            Dummy dummy = (Dummy) li.get(i);
-            Log.d("test", dummy.getId() + "/" + dummy.getNum());
-            dummy.setId(i);
-            dummy.setNum(i);
+        mRealm.where(Dummy.class).findAll().deleteAllFromRealm();
+        RealmList<Dummy> dummies = new RealmList<>();
+        for (int i = 0; i < 10; i++) {
+            dummies.add(new Dummy(i, i));
         }
+        mRealm.copyToRealm(dummies);
         mRealm.commitTransaction();
+
+        mAdapter.getData().clear();
+        final RealmList<Dummy> list = new RealmList<>();
+        for (Dummy dummy : mRealm.where(Dummy.class).findAllSorted("id")) {
+            list.add(dummy);
+        }
+        mAdapter.getData().addAll(list);
         mAdapter.notifyDataSetChanged();
 
         return super.onOptionsItemSelected(item);

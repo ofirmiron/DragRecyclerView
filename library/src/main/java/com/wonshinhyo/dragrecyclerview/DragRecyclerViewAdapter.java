@@ -20,13 +20,11 @@ public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter imple
     private boolean isHandleDragEnabled = true;
     private OnDragListener mDragListener;
 
-
     public DragRecyclerViewAdapter(Context context) {
         mContext = context;
     }
 
     public abstract List<Integer> getData();
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder hol, int position) {
@@ -100,7 +98,6 @@ public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter imple
     @Override
     public void setHandleId(int handleId) {
         DragHolder.mHandleId = handleId;
-//        mHandleId = handleId;
     }
 
 
