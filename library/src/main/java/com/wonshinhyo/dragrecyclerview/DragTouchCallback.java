@@ -11,11 +11,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 public class DragTouchCallback extends ItemTouchHelper.Callback {
 
+    private int mPosStart = -1, mPosEnd = -1;
     private boolean isLongDragEnabled = true;
     private boolean isSwipeEnabled = true;
-    private DragRecyclerViewAdapter mListener;
+    private OnDragListener mListener;
 
-    DragTouchCallback(DragRecyclerViewAdapter listener) {
+    DragTouchCallback(OnDragListener listener) {
         mListener = listener;
     }
 
@@ -33,12 +34,38 @@ public class DragTouchCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
+    public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+        super.onSelectedChanged(viewHolder, actionState);
+
+        switch (actionState) {
+            case ItemTouchHelper.ACTION_STATE_IDLE:
+                if (mPosStart == -1 || mPosEnd == -1) {
+                    return;
+                }
+                mListener.onDrop(mPosStart, mPosEnd);
+                mPosStart = -1;
+                mPosEnd = -1;
+                break;
+            case ItemTouchHelper.ACTION_STATE_SWIPE:
+                break;
+            case ItemTouchHelper.ACTION_STATE_DRAG:
+                break;
+        }
+
+    }
+
+    @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         if (viewHolder.getItemViewType() != target.getItemViewType()) {
             return false;
         }
 
-        mListener.onMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        int from = viewHolder.getAdapterPosition();
+        if (mPosStart == -1) {
+            mPosStart = from;
+        }
+        mPosEnd = target.getAdapterPosition();
+        mListener.onMove(from, mPosEnd);
         return true;
     }
 
@@ -79,30 +106,6 @@ public class DragTouchCallback extends ItemTouchHelper.Callback {
 
     void setItemViewSwipeEnabled(boolean swipeEnabled) {
         isSwipeEnabled = swipeEnabled;
-    }
-
-
-    interface OnDragListener {
-
-        boolean onMove(int fromPosition, int toPosition);
-
-        void onSwiped(int position);
-
-    }
-
-
-    public static class SimpleDragListener implements OnDragListener {
-
-        @Override
-        public boolean onMove(int fromPosition, int toPosition) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(int position) {
-        }
-
-
     }
 
 

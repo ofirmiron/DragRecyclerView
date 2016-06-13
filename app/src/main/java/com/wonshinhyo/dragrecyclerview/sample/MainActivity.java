@@ -11,23 +11,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        findViewById(R.id.btn1).setOnClickListener(this);
-        findViewById(R.id.btn2).setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, SampleActivity.class);
+        Class clazz = null;
+        int mode = 0; // 0 list 1 grid
         switch (v.getId()) {
             case R.id.btn1:
-                intent.putExtra("mode", 0); //list
+                clazz = ExamActivity.class;
+                mode = 0;
                 break;
             case R.id.btn2:
-                intent.putExtra("mode", 1); //grid
+                clazz = ExamActivity.class;
+                mode = 1;
+                break;
+            case R.id.btn3:
+                clazz = RealmExamActivity.class;
+                mode = 0;
+                break;
+            case R.id.btn4:
+                clazz = RealmExamActivity.class;
+                mode = 1;
                 break;
         }
+        Intent intent = new Intent(this, clazz);
+        intent.putExtra("mode", mode);
         startActivity(intent);
     }
 }

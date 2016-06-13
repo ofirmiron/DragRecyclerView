@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'realm-android'
 apply plugin: 'com.novoda.bintray-release'
 
 buildscript {
@@ -13,8 +14,8 @@ buildscript {
 publish {
     userOrg = 'shinhyo'
     groupId = 'com.wonshinhyo'
-    artifactId = 'dragrecyclerview'
-    publishVersion = '1.0.3'
+    artifactId = 'dragrecyclerview.realm'
+    publishVersion = '1.0.0'
     website = 'https://github.com/shinhyo/DragRecyclerView'
     issueTracker = "${website}/issues"
     repository = "${website}.git"
@@ -28,9 +29,8 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.3"
+        versionName "1.0.0"
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -39,7 +39,20 @@ android {
     }
 }
 
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.realm:realm-gradle-plugin:1.0.0"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+//    compile 'com.wonshinhyo:dragrecyclerview:1.0.3'
+    compile project(':library')
+    compile 'io.realm:android-adapters:1.2.2'
 }

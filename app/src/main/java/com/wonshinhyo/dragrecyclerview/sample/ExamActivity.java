@@ -10,15 +10,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.wonshinhyo.dragrecyclerview.DragRecyclerView;
-import com.wonshinhyo.dragrecyclerview.DragRecyclerViewAdapter;
-import com.wonshinhyo.dragrecyclerview.DragTouchCallback;
+import com.wonshinhyo.dragrecyclerview.SimpleClickListener;
+import com.wonshinhyo.dragrecyclerview.SimpleDragListener;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 
-public class SampleActivity extends AppCompatActivity {
+public class ExamActivity extends AppCompatActivity {
 
-    private Adapter mAdapter;
+    private ExamAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,30 +49,38 @@ public class SampleActivity extends AppCompatActivity {
             data.add(i);
         }
 
-        mAdapter = new Adapter(this, data);
+        mAdapter = new ExamAdapter(this, data);
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.setHandleDragEnabled(true); // default true
         recyclerView.setLongPressDragEnabled(true); // default true
         recyclerView.setSwipeEnabled(true); // default true
 
-        mAdapter.setOnItemClickListener(new DragRecyclerViewAdapter.SimpleClickListener() {
+//        mAdapter.setOnItemStartDragListener(new OnStartDragListener() {
+//            @Override
+//            public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+//
+//            }
+//        });
+
+
+        mAdapter.setOnItemClickListener(new SimpleClickListener() {
             @Override
             public void onItemClick(int pos, View v) {
                 super.onItemClick(pos, v);
-                Toast.makeText(SampleActivity.this, "onItemClick\npos: " + pos + " text: "
+                Toast.makeText(ExamActivity.this, "onItemClick\npos: " + pos + " text: "
                         + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onItemLongClick(int pos, View v) {
                 super.onItemLongClick(pos, v);
-                Toast.makeText(SampleActivity.this, "onItemLongClick\npos: " + pos + " text: "
+                Toast.makeText(ExamActivity.this, "onItemLongClick\npos: " + pos + " text: "
                         + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
             }
         });
 
-        mAdapter.setOnItemDragListener(new DragTouchCallback.SimpleDragListener() {
+        mAdapter.setOnItemDragListener(new SimpleDragListener() {
             @Override
             public boolean onMove(int fromPosition, int toPosition) {
                 Log.d("drag", fromPosition + " -> " + toPosition);
@@ -82,7 +90,7 @@ public class SampleActivity extends AppCompatActivity {
             @Override
             public void onSwiped(int pos) {
                 super.onSwiped(pos);
-                Toast.makeText(SampleActivity.this, "onSwiped\npos: " + pos + " text: "
+                Toast.makeText(ExamActivity.this, "onSwiped\npos: " + pos + " text: "
                         + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
             }
         });

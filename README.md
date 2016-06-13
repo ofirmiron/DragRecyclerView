@@ -58,7 +58,6 @@ Download
 =======
 
 ```groovy
-
 dependencies {
     compile 'com.wonshinhyo:dragrecyclerview:1.0.2'
 }

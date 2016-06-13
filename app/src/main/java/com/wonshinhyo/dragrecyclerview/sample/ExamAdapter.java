@@ -14,11 +14,11 @@ import java.util.ArrayList;
 /**
  * Created by Shinhyo on 2016. 6. 10..
  */
-class Adapter extends DragRecyclerViewAdapter {
+class ExamAdapter extends DragRecyclerViewAdapter {
 
     private final ArrayList<Integer> mData;
 
-    Adapter(Context context, ArrayList<Integer> data) {
+    ExamAdapter(Context context, ArrayList<Integer> data) {
         super(context);
         mData = data;
     }
@@ -31,7 +31,7 @@ class Adapter extends DragRecyclerViewAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder hol, int position) {
         super.onBindViewHolder(hol, position);
-        final Holder holder = (Holder) hol;
+        Holder holder = (Holder) hol;
         holder.mText.setText(String.valueOf(mData.get(position)));
     }
 
@@ -46,20 +46,14 @@ class Adapter extends DragRecyclerViewAdapter {
     }
 
 
-    private static final class Holder extends DragHolder {
+    private final class Holder extends com.wonshinhyo.dragrecyclerview.DragHolder {
 
         TextView mText;
 
         Holder(View view, int viewType) {
             super(view);
-
-            view.setOnClickListener(this);
-            view.setOnLongClickListener(this);
-
             mText = (TextView) view.findViewById(R.id.text);
-
         }
-
 
     }
 

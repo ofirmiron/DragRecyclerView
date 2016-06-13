@@ -1,4 +1,4 @@
-package com.wonshinhyo.dragrecyclerview;
+package com.wonshinhyo.dragrecyclerview.realm;
 
 import android.content.Context;
 import android.support.v4.view.MotionEventCompat;
@@ -6,27 +6,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.wonshinhyo.dragrecyclerview.DragHolder;
+import com.wonshinhyo.dragrecyclerview.ImpDragAdapter;
+import com.wonshinhyo.dragrecyclerview.OnClickListener;
+import com.wonshinhyo.dragrecyclerview.OnDragListener;
+import com.wonshinhyo.dragrecyclerview.OnStartDragListener;
+
 import java.util.Collections;
-import java.util.List;
+
+import io.realm.RealmList;
+import io.realm.RealmRecyclerViewAdapter;
 
 /**
  * Created by Shinhyo on 2016. 6. 10..
  */
 
-public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter implements ImpDragAdapter, OnDragListener {
+public abstract class DragRecyclerViewAdapter extends RealmRecyclerViewAdapter implements ImpDragAdapter, OnDragListener {
 
-    protected final Context mContext;
-    private OnStartDragListener mDragStartListener;
     private boolean isHandleDragEnabled = true;
+    private OnStartDragListener mDragStartListener;
     private OnDragListener mDragListener;
 
-
-    public DragRecyclerViewAdapter(Context context) {
-        mContext = context;
+    public DragRecyclerViewAdapter(Context context, RealmList data, boolean autoUpdate) {
+        super(context, data, autoUpdate);
     }
-
-    public abstract List<Integer> getData();
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder hol, int position) {
@@ -100,7 +103,6 @@ public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter imple
     @Override
     public void setHandleId(int handleId) {
         DragHolder.mHandleId = handleId;
-//        mHandleId = handleId;
     }
 
 

@@ -14,7 +14,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SampleActivity">
+        <activity android:name=".ExamActivity">
+        </activity>
+        <activity android:name=".RealmExamActivity">
         </activity>
     </application>
 

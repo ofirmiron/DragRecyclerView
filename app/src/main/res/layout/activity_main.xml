@@ -14,18 +14,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:onClick="onClick"
         android:text="List"
-        android:textSize="18sp"
-        tools:ignore="ButtonStyle"/>
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/btn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:elevation="0dp"
+        android:onClick="onClick"
         android:text="Grid"
-        android:textSize="18sp"
-        />
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
+        android:text="Realm List"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/btn4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
+        android:text="Realm Grid"
+        android:textSize="18sp"/>
 
 </LinearLayout>

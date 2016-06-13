@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.wonshinhyo.dragrecyclerview.sample"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -20,11 +21,12 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile project(':library')
-    compile 'com.wonshinhyo:dragrecyclerview:1.0.2'
+    compile project(':library')
+    compile project(':library-realm')
+
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
-
+    compile 'io.realm:android-adapters:1.2.2'
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 }

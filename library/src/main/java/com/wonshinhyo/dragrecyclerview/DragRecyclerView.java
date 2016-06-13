@@ -28,35 +28,32 @@ public class DragRecyclerView extends RecyclerView {
     }
 
     private void setAttrs(Context context, @Nullable AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, com.wonshinhyo.dragrecyclerview.R.styleable.Drag);
-        mHandleId = a.getResourceId(com.wonshinhyo.dragrecyclerview.R.styleable.Drag_handle_id, -1);
-    }
-
-    @Override
-    public DragRecyclerViewAdapter getAdapter() {
-        return (DragRecyclerViewAdapter) super.getAdapter();
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Drag);
+        mHandleId = a.getResourceId(R.styleable.Drag_handle_id, -1);
     }
 
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
 
-        mTouchHelperCallback = new DragTouchCallback(getAdapter());
+        ImpDragAdapter dragAdapter = (ImpDragAdapter) super.getAdapter();
+        mTouchHelperCallback = new DragTouchCallback((com.wonshinhyo.dragrecyclerview.OnDragListener) super.getAdapter());
         mItemTouchHelper = new ItemTouchHelper(mTouchHelperCallback);
         mItemTouchHelper.attachToRecyclerView(this);
 
-        getAdapter().setOnItemStartDragListener(new DragRecyclerViewAdapter.OnStartDragListener() {
+
+        dragAdapter.setOnItemStartDragListener(new OnStartDragListener() {
             @Override
             public void onStartDrag(ViewHolder viewHolder) {
                 mItemTouchHelper.startDrag(viewHolder);
             }
         });
 
-        getAdapter().setHandleId(mHandleId);
+        dragAdapter.setHandleId(mHandleId);
     }
 
     public void setHandleDragEnabled(boolean dragEnabled) {
-        getAdapter().setHandleDragEnabled(dragEnabled);
+        ((ImpDragAdapter) super.getAdapter()).setHandleDragEnabled(dragEnabled);
     }
 
     public void setLongPressDragEnabled(boolean set) {
