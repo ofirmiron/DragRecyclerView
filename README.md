@@ -1,4 +1,7 @@
-# DragRecyclerView [ ![Download](https://api.bintray.com/packages/shinhyo/maven/dragrecyclerview/images/download.svg) ](https://bintray.com/shinhyo/maven/dragrecyclerview/_latestVersion) <a href="http://www.methodscount.com/?lib=com.wonshinhyo%3Adragrecyclerview%3A1.0.2"><img src="https://img.shields.io/badge/Size-12 KB-e91e63.svg"/></a>
+## DragRecyclerView [ ![Download](https://api.bintray.com/packages/shinhyo/maven/dragrecyclerview/images/download.svg) ](https://bintray.com/shinhyo/maven/dragrecyclerview/_latestVersion) <a href="http://www.methodscount.com/?lib=com.wonshinhyo%3Adragrecyclerview%3A1.0.2"><img src="https://img.shields.io/badge/Size-12 KB-e91e63.svg"/></a>
+
+#####Simple Drag and Drop and Swipe RecyclerView (with Realm)
+<br />
 
 List Sample | Grid Sample
 ---- | ----
@@ -41,9 +44,17 @@ mAdapter.setOnItemClickListener(new DragRecyclerViewAdapter.SimpleClickListener(
 
 // drag & swipe listener
 mAdapter.setOnItemDragListener(new DragTouchCallback.SimpleDragListener() {
+
+    //realtime callback
     @Override
     public boolean onMove(int fromPosition, int toPosition) {
         return super.onMove(fromPosition, toPosition);
+    }
+    
+    // single callback
+    @Override
+    public void onDrop(int fromPosition, int toPosition) {
+        super.onDrop(fromPosition, toPosition);
     }
 
     @Override
@@ -59,7 +70,12 @@ Download
 
 ```groovy
 dependencies {
-    compile 'com.wonshinhyo:dragrecyclerview:1.0.2'
+
+    compile 'com.wonshinhyo:dragrecyclerview:1.1.0'
+    
+    // If you use the [RealmRecyclerViewAdapter], add this
+    compile 'com.wonshinhyo:dragrecyclerview.realm.adapter:1.0.0'
+     
 }
 ```
 

@@ -80,6 +80,12 @@ public class ExamActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onDrop(int fromPosition, int toPosition) {
+                super.onDrop(fromPosition, toPosition);
+                Log.i("drag", "onDrop " + fromPosition + " -> " + toPosition);
+            }
+
+            @Override
             public void onSwiped(int pos) {
                 super.onSwiped(pos);
                 Log.d("drag", "onSwiped " + pos);
