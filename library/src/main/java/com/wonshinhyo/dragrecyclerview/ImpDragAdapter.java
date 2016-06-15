@@ -1,12 +1,14 @@
 package com.wonshinhyo.dragrecyclerview;
 
+import java.util.List;
+
 /**
  * Created by Shinhyo on 2016. 6. 13..
  */
 
-public interface ImpDragAdapter {
+interface ImpDragAdapter {
 
-    void setOnItemStartDragListener(OnStartDragListener onStartDragListener);
+    List getData();
 
     void setOnItemDragListener(OnDragListener dragListener);
 
@@ -14,5 +16,4 @@ public interface ImpDragAdapter {
 
     void setHandleDragEnabled(boolean dragEnabled);
 
-    void setHandleId(int handleId);
 }

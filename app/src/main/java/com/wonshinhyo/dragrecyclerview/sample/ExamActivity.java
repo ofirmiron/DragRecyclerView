@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wonshinhyo.dragrecyclerview.DragRecyclerView;
+import com.wonshinhyo.dragrecyclerview.RecyclerView;
 import com.wonshinhyo.dragrecyclerview.SimpleClickListener;
 import com.wonshinhyo.dragrecyclerview.SimpleDragListener;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -26,7 +26,7 @@ public class ExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample);
         getSupportActionBar().setTitle("Sample");
 
-        DragRecyclerView recyclerView = (DragRecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         if (getIntent().getIntExtra("mode", 0) == 0) { //list
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -52,21 +52,21 @@ public class ExamActivity extends AppCompatActivity {
         mAdapter = new ExamAdapter(this, data);
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.setHandleDragEnabled(true); // default true
-        recyclerView.setLongPressDragEnabled(true); // default true
-        recyclerView.setSwipeEnabled(true); // default true
+        mAdapter.setHandleDragEnabled(true); // default true
+        mAdapter.setLongPressDragEnabled(true); // default true
+        mAdapter.setSwipeEnabled(true); // default true
 
         mAdapter.setOnItemClickListener(new SimpleClickListener() {
             @Override
-            public void onItemClick(int pos, View v) {
-                super.onItemClick(pos, v);
+            public void onItemClick(View v, int pos) {
+                super.onItemClick(v, pos);
                 Toast.makeText(ExamActivity.this, "onItemClick\npos: " + pos + " text: "
                         + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onItemLongClick(int pos, View v) {
-                super.onItemLongClick(pos, v);
+            public void onItemLongClick(View v, int pos) {
+                super.onItemClick(v, pos);
                 Toast.makeText(ExamActivity.this, "onItemLongClick\npos: " + pos + " text: "
                         + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
             }

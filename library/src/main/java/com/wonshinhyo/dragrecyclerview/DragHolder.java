@@ -26,14 +26,14 @@ public class DragHolder extends RecyclerView.ViewHolder implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (mClickListener != null) {
-            mClickListener.onItemClick(getAdapterPosition(), v);
+            mClickListener.onItemClick(v, getAdapterPosition());
         }
     }
 
     @Override
     public boolean onLongClick(View v) {
         if (mClickListener != null) {
-            mClickListener.onItemLongClick(getAdapterPosition(), v);
+            mClickListener.onItemLongClick(v, getAdapterPosition());
         }
         return true;
     }

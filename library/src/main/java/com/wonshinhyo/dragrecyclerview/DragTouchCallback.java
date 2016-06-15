@@ -16,7 +16,7 @@ public class DragTouchCallback extends ItemTouchHelper.Callback {
     private boolean isSwipeEnabled = true;
     private OnDragListener mListener;
 
-    DragTouchCallback(OnDragListener listener) {
+    public DragTouchCallback(OnDragListener listener) {
         mListener = listener;
     }
 
@@ -95,7 +95,7 @@ public class DragTouchCallback extends ItemTouchHelper.Callback {
         return isLongDragEnabled;
     }
 
-    void setLongPressDragEnabled(boolean dragEnabled) {
+    public void setLongPressDragEnabled(boolean dragEnabled) {
         isLongDragEnabled = dragEnabled;
     }
 
@@ -104,7 +104,7 @@ public class DragTouchCallback extends ItemTouchHelper.Callback {
         return isSwipeEnabled;
     }
 
-    void setItemViewSwipeEnabled(boolean swipeEnabled) {
+    public void setItemViewSwipeEnabled(boolean swipeEnabled) {
         isSwipeEnabled = swipeEnabled;
     }
 

@@ -5,9 +5,11 @@ package com.wonshinhyo.dragrecyclerview;
  */
 
 public interface OnDragListener {
+
     boolean onMove(int fromPosition, int toPosition);
 
     void onSwiped(int position);
 
     void onDrop(int fromPosition, int toPosition);
+
 }

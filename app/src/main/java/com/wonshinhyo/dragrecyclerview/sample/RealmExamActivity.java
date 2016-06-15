@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wonshinhyo.dragrecyclerview.DragRecyclerView;
+import com.wonshinhyo.dragrecyclerview.RecyclerView;
 import com.wonshinhyo.dragrecyclerview.SimpleClickListener;
 import com.wonshinhyo.dragrecyclerview.SimpleDragListener;
 import com.wonshinhyo.dragrecyclerview.sample.item.Dummy;
@@ -32,7 +32,7 @@ public class RealmExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample);
         getSupportActionBar().setTitle("Realm Sample");
 
-        DragRecyclerView recyclerView = (DragRecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         if (getIntent().getIntExtra("mode", 0) == 0) { //list
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -49,7 +49,6 @@ public class RealmExamActivity extends AppCompatActivity {
                         .size(1)
                         .build()
         );
-
 
         // dummy data
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
@@ -73,21 +72,21 @@ public class RealmExamActivity extends AppCompatActivity {
         mAdapter = new RealmExamAdapter(this, list, true);
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.setHandleDragEnabled(true); // default true
-        recyclerView.setLongPressDragEnabled(true); // default true
-        recyclerView.setSwipeEnabled(true); // default true
+        mAdapter.setHandleDragEnabled(true); // default true
+        mAdapter.setLongPressDragEnabled(true); // default true
+        mAdapter.setSwipeEnabled(true); // default true
 
         mAdapter.setOnItemClickListener(new SimpleClickListener() {
             @Override
-            public void onItemClick(int pos, View v) {
-                super.onItemClick(pos, v);
+            public void onItemClick(View v, int pos) {
+                super.onItemClick(v, pos);
                 Toast.makeText(RealmExamActivity.this, "onItemClick\npos: " + pos + " text: "
                         + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onItemLongClick(int pos, View v) {
-                super.onItemLongClick(pos, v);
+            public void onItemLongClick(View v, int pos) {
+                super.onItemLongClick(v, pos);
                 Toast.makeText(RealmExamActivity.this, "onItemLongClick\npos: " + pos + " text: "
                         + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
             }
@@ -112,6 +111,7 @@ public class RealmExamActivity extends AppCompatActivity {
                     Dummy old = (Dummy) collection.get(i);
                     list.add(new Dummy(i, old.getNum()));
                 }
+
                 mRealm.beginTransaction();
                 mRealm.copyToRealmOrUpdate(list);
                 mRealm.commitTransaction();

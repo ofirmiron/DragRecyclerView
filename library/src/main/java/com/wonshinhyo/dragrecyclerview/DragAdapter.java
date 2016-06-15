@@ -2,7 +2,6 @@ package com.wonshinhyo.dragrecyclerview;
 
 import android.content.Context;
 import android.support.v4.view.MotionEventCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -10,21 +9,20 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Shinhyo on 2016. 6. 10..
+ * Created by Shinhyo on 2016. 6. 14..
  */
+public abstract class DragAdapter extends android.support.v7.widget.RecyclerView.Adapter implements ImpAdapter, OnDragListener {
 
-public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter implements ImpDragAdapter, OnDragListener {
-
-    protected final Context mContext;
-    private OnStartDragListener mDragStartListener;
+    private final Context mContext;
+    private List mData;
     private boolean isHandleDragEnabled = true;
     private OnDragListener mDragListener;
+    private RecyclerView mRecyclerView;
 
-    public DragRecyclerViewAdapter(Context context) {
+    public DragAdapter(Context context, List data) {
         mContext = context;
+        mData = data;
     }
-
-    public abstract List<Integer> getData();
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder hol, int position) {
@@ -37,9 +35,8 @@ public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter imple
         handle.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN
-                        && mDragStartListener != null) {
-                    mDragStartListener.onStartDrag(holder);
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    mRecyclerView.getItemTouchHelper().startDrag(holder);
                 }
                 return false;
             }
@@ -48,8 +45,17 @@ public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter imple
 
 
     @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
+
+    @Override
     public boolean onMove(int fromPosition, int toPosition) {
-        Collections.swap(getData(), fromPosition, toPosition);
+        Collections.swap(mData, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
 
         if (mDragListener != null) {
@@ -60,7 +66,7 @@ public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter imple
 
     @Override
     public void onSwiped(int position) {
-        getData().remove(position);
+        mData.remove(position);
         notifyItemRemoved(position);
 
         if (mDragListener != null) {
@@ -75,29 +81,36 @@ public abstract class DragRecyclerViewAdapter extends RecyclerView.Adapter imple
         }
     }
 
-    @Override
-    public void setOnItemStartDragListener(OnStartDragListener clickListener) {
-        mDragStartListener = clickListener;
+    public List getData() {
+        return mData;
     }
 
-    @Override
     public void setOnItemDragListener(OnDragListener dragListener) {
         mDragListener = dragListener;
     }
 
-    @Override
     public void setOnItemClickListener(OnClickListener clickListener) {
         DragHolder.mClickListener = clickListener;
     }
 
-    @Override
+    public void setHandleId(int handleId) {
+        DragHolder.mHandleId = handleId;
+    }
+
     public void setHandleDragEnabled(boolean dragEnabled) {
         isHandleDragEnabled = dragEnabled;
     }
 
-    @Override
-    public void setHandleId(int handleId) {
-        DragHolder.mHandleId = handleId;
+    public void setRecycleView(RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
+    }
+
+    public void setLongPressDragEnabled(boolean set) {
+        mRecyclerView.getTouchHelperCallback().setLongPressDragEnabled(set);
+    }
+
+    public void setSwipeEnabled(boolean set) {
+        mRecyclerView.getTouchHelperCallback().setItemViewSwipeEnabled(set);
     }
 
 
