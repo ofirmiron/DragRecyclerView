@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.wonshinhyo.dragrecyclerview.DragAdapter;
 import com.wonshinhyo.dragrecyclerview.DragHolder;
-import com.wonshinhyo.dragrecyclerview.RecyclerView;
+import com.wonshinhyo.dragrecyclerview.DragRecyclerView;
 
 import java.util.ArrayList;
 
@@ -22,12 +22,12 @@ class ExamAdapter extends DragAdapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DragRecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(getContext()).inflate(R.layout.row, parent, false), viewType);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder hol, int position) {
+    public void onBindViewHolder(DragRecyclerView.ViewHolder hol, int position) {
         super.onBindViewHolder(hol, position);
         Holder holder = (Holder) hol;
         holder.mText.setText(String.valueOf(getData().get(position)));

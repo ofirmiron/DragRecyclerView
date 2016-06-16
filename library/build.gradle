@@ -10,11 +10,13 @@ buildscript {
     }
 }
 
+def version = "0.1.0"
+
 publish {
     userOrg = 'shinhyo'
     groupId = 'com.wonshinhyo'
     artifactId = 'dragrecyclerview'
-    publishVersion = '1.1.0'
+    publishVersion = version
     website = 'https://github.com/shinhyo/DragRecyclerView'
     issueTracker = "${website}/issues"
     repository = "${website}.git"
@@ -28,7 +30,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "1.1.0"
+        versionName version
     }
 
     buildTypes {

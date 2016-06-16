@@ -16,7 +16,7 @@ public class DragTouchCallback extends ItemTouchHelper.Callback {
     private boolean isSwipeEnabled = true;
     private OnDragListener mListener;
 
-    public DragTouchCallback(OnDragListener listener) {
+    DragTouchCallback(OnDragListener listener) {
         mListener = listener;
     }
 

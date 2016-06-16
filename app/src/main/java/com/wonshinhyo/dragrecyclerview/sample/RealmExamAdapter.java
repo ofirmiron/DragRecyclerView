@@ -8,16 +8,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wonshinhyo.dragrecyclerview.DragHolder;
+import com.wonshinhyo.dragrecyclerview.realm.DragRealmAdapter;
 import com.wonshinhyo.dragrecyclerview.sample.item.Dummy;
 
-import io.realm.RealmList;
+import io.realm.OrderedRealmCollection;
 
 /**
  * Created by Shinhyo on 2016. 6. 10..
  */
-class RealmExamAdapter extends com.wonshinhyo.dragrecyclerview.realm.DragAdapter {
+class RealmExamAdapter extends DragRealmAdapter {
 
-    RealmExamAdapter(Context context, RealmList data, boolean autoUpdate) {
+    RealmExamAdapter(Context context, OrderedRealmCollection data, boolean autoUpdate) {
         super(context, data, autoUpdate);
     }
 

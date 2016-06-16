@@ -6,7 +6,7 @@ package com.wonshinhyo.dragrecyclerview;
 
 public interface OnDragListener {
 
-    boolean onMove(int fromPosition, int toPosition);
+    void onMove(int fromPosition, int toPosition);
 
     void onSwiped(int position);
 

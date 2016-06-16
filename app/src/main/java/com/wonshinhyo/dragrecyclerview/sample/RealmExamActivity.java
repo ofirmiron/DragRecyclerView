@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wonshinhyo.dragrecyclerview.RecyclerView;
+import com.wonshinhyo.dragrecyclerview.DragRecyclerView;
 import com.wonshinhyo.dragrecyclerview.SimpleClickListener;
 import com.wonshinhyo.dragrecyclerview.SimpleDragListener;
 import com.wonshinhyo.dragrecyclerview.sample.item.Dummy;
@@ -23,6 +23,8 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 
 public class RealmExamActivity extends AppCompatActivity {
+    private static final int SIZE = 5;
+
     private RealmExamAdapter mAdapter;
     private Realm mRealm;
 
@@ -32,7 +34,7 @@ public class RealmExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample);
         getSupportActionBar().setTitle("Realm Sample");
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        DragRecyclerView recyclerView = (DragRecyclerView) findViewById(R.id.recyclerview);
         if (getIntent().getIntExtra("mode", 0) == 0) { //list
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -51,29 +53,34 @@ public class RealmExamActivity extends AppCompatActivity {
         );
 
         // dummy data
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
+                .deleteRealmIfMigrationNeeded()
+                .initialData(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        RealmList<Dummy> dummies = new RealmList<>();
+                        for (int i = 0; i < SIZE; i++) {
+                            dummies.add(new Dummy(i, i, i));
+                        }
+                        realm.copyToRealm(dummies);
+                    }
+                })
+                .build();
+
         mRealm = Realm.getInstance(realmConfiguration);
-        if (mRealm.where(Dummy.class).count() <= 0) {
-            mRealm.beginTransaction();
-            RealmList<Dummy> dummies = new RealmList<>();
-            for (int i = 0; i < 10; i++) {
-                dummies.add(new Dummy(i, i));
-            }
-            mRealm.copyToRealm(dummies);
-            mRealm.commitTransaction();
-        }
 
         final RealmList<Dummy> list = new RealmList<>();
-        for (Dummy dummy : mRealm.where(Dummy.class).findAllSorted("id")) {
+        for (Dummy dummy : mRealm.where(Dummy.class).findAllSorted("sort")) {
+            Log.w("test", "dummy " + dummy.getId() + " - " + dummy.getNum() + " - " + dummy.getSort());
             list.add(dummy);
         }
 
-        //
+
         mAdapter = new RealmExamAdapter(this, list, true);
         recyclerView.setAdapter(mAdapter);
 
         mAdapter.setHandleDragEnabled(true); // default true
-        mAdapter.setLongPressDragEnabled(true); // default true
+        mAdapter.setLongPressDragEnabled(false); // default true
         mAdapter.setSwipeEnabled(true); // default true
 
         mAdapter.setOnItemClickListener(new SimpleClickListener() {
@@ -94,28 +101,49 @@ public class RealmExamActivity extends AppCompatActivity {
 
 
         mAdapter.setOnItemDragListener(new SimpleDragListener() {
+
+//            @Override
+//            public void onMove(int fromPosition, int toPosition) {
+//                super.onMove(fromPosition, toPosition);
+//                Log.e("test", fromPosition + "->" + toPosition);
+//                mRealm.beginTransaction();
+//
+//                OrderedRealmCollection collection = mAdapter.getData();
+//
+//                Dummy fromDummy = (Dummy) collection.get(fromPosition);
+//                Dummy toDummy = (Dummy) collection.get(toPosition);
+//                fromDummy.setSort(toPosition);
+//                toDummy.setSort(fromPosition);
+//
+//                Dummy f = mRealm.where(Dummy.class).equalTo("sort", fromPosition).findFirst();
+//                Dummy t = mRealm.where(Dummy.class).equalTo("sort", toPosition).findFirst();
+//                f.setSort(toPosition);
+//                t.setSort(fromPosition);
+//                mRealm.commitTransaction();
+//
+//            }
+
             @Override
-            public boolean onMove(int fromPosition, int toPosition) {
-                Log.d("drag", "onMove " + fromPosition + " -> " + toPosition);
-                return super.onMove(fromPosition, toPosition);
+            public void onMove(int fromPosition, int toPosition) {
+                super.onMove(fromPosition, toPosition);
             }
+
 
             @Override
             public void onDrop(int fromPosition, int toPosition) {
                 super.onDrop(fromPosition, toPosition);
-                Log.i("drag", "onDrop " + fromPosition + " -> " + toPosition);
-
-                RealmList<Dummy> list = new RealmList<>();
+                Log.e("test", "------------------------------");
+                Log.e("test", fromPosition + "->" + toPosition);
+                mRealm.beginTransaction();
                 OrderedRealmCollection collection = mAdapter.getData();
                 for (int i = 0; i < collection.size(); i++) {
-                    Dummy old = (Dummy) collection.get(i);
-                    list.add(new Dummy(i, old.getNum()));
+                    Dummy dummy = (Dummy) collection.get(i);
+                    if (dummy.getSort() == i) {
+                        continue;
+                    }
+                    dummy.setSort(i);
                 }
-
-                mRealm.beginTransaction();
-                mRealm.copyToRealmOrUpdate(list);
                 mRealm.commitTransaction();
-
             }
 
             @Override
@@ -125,8 +153,9 @@ public class RealmExamActivity extends AppCompatActivity {
                 Toast.makeText(RealmExamActivity.this, "onSwiped\npos: " + pos, Toast.LENGTH_SHORT).show();
 
                 mRealm.beginTransaction();
-                mRealm.where(Dummy.class).equalTo("id", pos).findAllSorted("id").deleteAllFromRealm();
+                mRealm.where(Dummy.class).equalTo("sort", pos).findAllSorted("sort").deleteAllFromRealm();
                 mRealm.commitTransaction();
+
             }
         });
 
@@ -146,19 +175,16 @@ public class RealmExamActivity extends AppCompatActivity {
 
         mRealm.beginTransaction();
         mRealm.where(Dummy.class).findAll().deleteAllFromRealm();
+
         RealmList<Dummy> dummies = new RealmList<>();
-        for (int i = 0; i < 10; i++) {
-            dummies.add(new Dummy(i, i));
+        for (int i = 0; i < SIZE; i++) {
+            dummies.add(new Dummy(i, i, i));
         }
         mRealm.copyToRealm(dummies);
         mRealm.commitTransaction();
 
         mAdapter.getData().clear();
-        final RealmList<Dummy> list = new RealmList<>();
-        for (Dummy dummy : mRealm.where(Dummy.class).findAllSorted("id")) {
-            list.add(dummy);
-        }
-        mAdapter.getData().addAll(list);
+        mAdapter.getData().addAll(dummies);
         mAdapter.notifyDataSetChanged();
 
         return super.onOptionsItemSelected(item);

@@ -5,7 +5,6 @@ import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ public abstract class DragAdapter extends android.support.v7.widget.RecyclerView
     private List mData;
     private boolean isHandleDragEnabled = true;
     private OnDragListener mDragListener;
-    private RecyclerView mRecyclerView;
+    private DragRecyclerView mRecyclerView;
 
     public DragAdapter(Context context, List data) {
         mContext = context;
@@ -25,7 +24,7 @@ public abstract class DragAdapter extends android.support.v7.widget.RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder hol, int position) {
+    public void onBindViewHolder(DragRecyclerView.ViewHolder hol, int position) {
         final DragHolder holder = (DragHolder) hol;
 
         View handle = holder.getHandle();
@@ -54,15 +53,17 @@ public abstract class DragAdapter extends android.support.v7.widget.RecyclerView
     }
 
     @Override
-    public boolean onMove(int fromPosition, int toPosition) {
-        Collections.swap(mData, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
+    public void onMove(int fromPosition, int toPosition) {
+
+//        Collections.swap(getData(), fromPosition, toPosition);
 
         if (mDragListener != null) {
             mDragListener.onMove(fromPosition, toPosition);
         }
-        return false;
+
+        notifyItemMoved(fromPosition, toPosition);
     }
+
 
     @Override
     public void onSwiped(int position) {
@@ -76,6 +77,10 @@ public abstract class DragAdapter extends android.support.v7.widget.RecyclerView
 
     @Override
     public void onDrop(int fromPosition, int toPosition) {
+
+        List list = getData();
+        list.add(toPosition, list.remove(fromPosition));
+
         if (mDragListener != null) {
             mDragListener.onDrop(fromPosition, toPosition);
         }
@@ -101,7 +106,7 @@ public abstract class DragAdapter extends android.support.v7.widget.RecyclerView
         isHandleDragEnabled = dragEnabled;
     }
 
-    public void setRecycleView(RecyclerView recyclerView) {
+    public void setRecycleView(DragRecyclerView recyclerView) {
         mRecyclerView = recyclerView;
     }
 

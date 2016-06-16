@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wonshinhyo.dragrecyclerview.RecyclerView;
+import com.wonshinhyo.dragrecyclerview.DragRecyclerView;
 import com.wonshinhyo.dragrecyclerview.SimpleClickListener;
 import com.wonshinhyo.dragrecyclerview.SimpleDragListener;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -26,7 +26,7 @@ public class ExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample);
         getSupportActionBar().setTitle("Sample");
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        DragRecyclerView recyclerView = (DragRecyclerView) findViewById(R.id.recyclerview);
         if (getIntent().getIntExtra("mode", 0) == 0) { //list
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -73,11 +73,10 @@ public class ExamActivity extends AppCompatActivity {
         });
 
         mAdapter.setOnItemDragListener(new SimpleDragListener() {
-            @Override
-            public boolean onMove(int fromPosition, int toPosition) {
-                Log.d("drag", fromPosition + " -> " + toPosition);
-                return super.onMove(fromPosition, toPosition);
-            }
+//            @Override
+//            public void onMove(int fromPosition, int toPosition) {
+//                Log.d("drag", fromPosition + " -> " + toPosition);
+//            }
 
             @Override
             public void onDrop(int fromPosition, int toPosition) {

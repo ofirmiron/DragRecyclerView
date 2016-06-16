@@ -6,8 +6,7 @@ package com.wonshinhyo.dragrecyclerview;
 public class SimpleDragListener implements OnDragListener {
 
     @Override
-    public boolean onMove(int fromPosition, int toPosition) {
-        return false;
+    public void onMove(int fromPosition, int toPosition) {
     }
 
     @Override

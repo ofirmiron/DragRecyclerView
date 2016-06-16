@@ -8,5 +8,5 @@ public interface ImpAdapter {
 
     void setHandleId(int handleId);
 
-    void setRecycleView(RecyclerView recyclerView);
+    void setRecycleView(DragRecyclerView recyclerView);
 }

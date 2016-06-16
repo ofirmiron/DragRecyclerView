@@ -10,18 +10,18 @@ import android.util.AttributeSet;
  * Created by Shinhyo on 2016. 6. 10..
  */
 
-public class RecyclerView extends android.support.v7.widget.RecyclerView implements ImpRecycleView {
+public class DragRecyclerView extends android.support.v7.widget.RecyclerView implements ImpRecycleView {
     private ItemTouchHelper mItemTouchHelper;
 
     private int mHandleId = -1;
     private DragTouchCallback mTouchHelperCallback;
 
-    public RecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public DragRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setAttrs(context, attrs);
     }
 
-    public RecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public DragRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setAttrs(context, attrs);
     }
@@ -36,7 +36,7 @@ public class RecyclerView extends android.support.v7.widget.RecyclerView impleme
     }
 
     @Override
-    public void setAdapter(RecyclerView.Adapter adapter) {
+    public void setAdapter(DragRecyclerView.Adapter adapter) {
         super.setAdapter(adapter);
 
         getDragAdapter().setHandleId(mHandleId);
