@@ -12,56 +12,61 @@ Code
 
 **xml**
 ```xml
-<com.wonshinhyo.dragrecyclerview.DragRecyclerView
-    android:id="@+id/recyclerview"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    drag:handle_id="@+id/handler"/>      // set [handle_id] or do not
+    
+    <com.wonshinhyo.dragrecyclerview.DragRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        drag:handle_id="@+id/handler"/> // set [handle_id] or do not
+
+
 ```
  
-
 **java**
 ```java
-DragRecyclerView recyclerView = (DragRecyclerView) findViewById(R.id.recyclerview);
+        
+        DragRecyclerView recyclerView = (DragRecyclerView) findViewById(R.id.recyclerview);
 
-...
+        ...
 
-mAdapter = new Adapter(this, data);
-recyclerView.setAdapter(mAdapter);
+        mAdapter = new ExamAdapter(this, data);
+        recyclerView.setAdapter(mAdapter);
 
-recyclerView.setHandleDragEnabled(true); // default true
-recyclerView.setLongPressDragEnabled(true); // default true
-recyclerView.setSwipeEnabled(true); // default true
+        mAdapter.setHandleDragEnabled(true); // default true
+        mAdapter.setLongPressDragEnabled(true); // default true
+        mAdapter.setSwipeEnabled(true); // default true
 
-// click listener
-mAdapter.setOnItemClickListener(new DragRecyclerViewAdapter.SimpleClickListener() {
-    @Override
-    public void onItemClick(int pos, View v) {}
+        mAdapter.setOnItemClickListener(new SimpleClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                super.onItemClick(v, pos);
+                Toast.makeText(ExamActivity.this, "onItemClick\npos: " + pos + " text: "
+                        + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
+            }
 
-    @Override
-    public void onItemLongClick(int pos, View v) {}
-});
+            @Override
+            public void onItemLongClick(View v, int pos) {
+                super.onItemClick(v, pos);
+                Toast.makeText(ExamActivity.this, "onItemLongClick\npos: " + pos + " text: "
+                        + mAdapter.getData().get(pos), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-// drag & swipe listener
-mAdapter.setOnItemDragListener(new DragTouchCallback.SimpleDragListener() {
+        mAdapter.setOnItemDragListener(new SimpleDragListener() {
 
-    //realtime callback
-    @Override
-    public boolean onMove(int fromPosition, int toPosition) {
-        return super.onMove(fromPosition, toPosition);
-    }
-    
-    // single callback
-    @Override
-    public void onDrop(int fromPosition, int toPosition) {
-        super.onDrop(fromPosition, toPosition);
-    }
+            @Override
+            public void onDrop(int fromPosition, int toPosition) {  // single callback
+                super.onDrop(fromPosition, toPosition);
+                Log.i("drag", "onDrop " + fromPosition + " -> " + toPosition);
+            }
 
-    @Override
-    public void onSwiped(int pos) {
-        super.onSwiped(pos);
-    }
-});
+            @Override
+            public void onSwiped(int pos) {
+                super.onSwiped(pos);
+                Log.d("drag", "onSwiped " + pos);
+                Toast.makeText(ExamActivity.this, "onSwiped\npos: " + pos, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 ```
 
@@ -71,10 +76,11 @@ Download
 ```groovy
 dependencies {
 
-    compile 'com.wonshinhyo:dragrecyclerview:1.1.0'
+    compile 'com.wonshinhyo:dragrecyclerview:0.1.1'
     
-    // If you use the [RealmRecyclerViewAdapter], add this
-    compile 'com.wonshinhyo:dragrecyclerview.realm.adapter:1.0.0'
+    or 
+    
+    compile 'com.wonshinhyo:dragrecyclerview.realm:0.1.1' // use realm
      
 }
 ```

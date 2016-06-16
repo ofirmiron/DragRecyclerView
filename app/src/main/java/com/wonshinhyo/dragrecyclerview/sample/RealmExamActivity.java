@@ -23,7 +23,7 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 
 public class RealmExamActivity extends AppCompatActivity {
-    private static final int SIZE = 5;
+    private static final int SIZE = 10;
 
     private RealmExamAdapter mAdapter;
     private Realm mRealm;
@@ -102,38 +102,12 @@ public class RealmExamActivity extends AppCompatActivity {
 
         mAdapter.setOnItemDragListener(new SimpleDragListener() {
 
-//            @Override
-//            public void onMove(int fromPosition, int toPosition) {
-//                super.onMove(fromPosition, toPosition);
-//                Log.e("test", fromPosition + "->" + toPosition);
-//                mRealm.beginTransaction();
-//
-//                OrderedRealmCollection collection = mAdapter.getData();
-//
-//                Dummy fromDummy = (Dummy) collection.get(fromPosition);
-//                Dummy toDummy = (Dummy) collection.get(toPosition);
-//                fromDummy.setSort(toPosition);
-//                toDummy.setSort(fromPosition);
-//
-//                Dummy f = mRealm.where(Dummy.class).equalTo("sort", fromPosition).findFirst();
-//                Dummy t = mRealm.where(Dummy.class).equalTo("sort", toPosition).findFirst();
-//                f.setSort(toPosition);
-//                t.setSort(fromPosition);
-//                mRealm.commitTransaction();
-//
-//            }
-
-            @Override
-            public void onMove(int fromPosition, int toPosition) {
-                super.onMove(fromPosition, toPosition);
-            }
-
-
             @Override
             public void onDrop(int fromPosition, int toPosition) {
                 super.onDrop(fromPosition, toPosition);
                 Log.e("test", "------------------------------");
                 Log.e("test", fromPosition + "->" + toPosition);
+
                 mRealm.beginTransaction();
                 OrderedRealmCollection collection = mAdapter.getData();
                 for (int i = 0; i < collection.size(); i++) {
@@ -158,8 +132,6 @@ public class RealmExamActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
 
@@ -171,8 +143,6 @@ public class RealmExamActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d("test", "onOptionsItemSelected");
-
         mRealm.beginTransaction();
         mRealm.where(Dummy.class).findAll().deleteAllFromRealm();
 

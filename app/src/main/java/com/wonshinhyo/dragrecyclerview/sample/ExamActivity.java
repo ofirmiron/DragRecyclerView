@@ -73,10 +73,6 @@ public class ExamActivity extends AppCompatActivity {
         });
 
         mAdapter.setOnItemDragListener(new SimpleDragListener() {
-//            @Override
-//            public void onMove(int fromPosition, int toPosition) {
-//                Log.d("drag", fromPosition + " -> " + toPosition);
-//            }
 
             @Override
             public void onDrop(int fromPosition, int toPosition) {
