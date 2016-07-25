@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context=".ExamActivity">
 
-    <com.wonshinhyo.dragrecyclerview.realm.DragRecyclerView
+    <com.wonshinhyo.dragrecyclerview.DragRecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
